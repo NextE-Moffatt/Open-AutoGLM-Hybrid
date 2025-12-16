@@ -29,12 +29,12 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
-      # ✅ 把 keystore 放到 module 目录下：android-app/app/keystore/...
       - name: Restore keystore
         run: |
           mkdir -p app/keystore
-          echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > app/keystore/autoglm-release.keystore
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/keystore/autoglm-release.keystore
           ls -la app/keystore
+          file app/keystore/autoglm-release.keystore
 
       - name: Build Release APK (signed)
         env:
@@ -46,10 +46,10 @@ jobs:
       - name: List APK outputs
         run: ls -la app/build/outputs/apk/release
 
-      # ✅ 注意：这里要用仓库根目录路径（要带 android-app/ 前缀）
       - name: Upload APK to GitHub Release
         uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: |
             android-app/app/build/outputs/apk/release/*.apk
-
