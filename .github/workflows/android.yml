@@ -20,7 +20,7 @@ jobs:
     - name: Build Release APK
       run: ./gradlew assembleRelease
     - name: Releasing using Hub
-      uses: sangatdesai/release-apk@main
+      uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
         APP_FOLDER: android-app/app
