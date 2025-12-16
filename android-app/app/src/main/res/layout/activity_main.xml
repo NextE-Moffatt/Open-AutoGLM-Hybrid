@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/service_stopped"
+        android:textSize="16sp"
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:id="@+id/serverStatusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/server_stopped"
+        android:textSize="14sp"
+        android:layout_marginBottom="32dp" />
+
+    <Button
+        android:id="@+id/openSettingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/open_settings"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/testConnectionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/test_connection" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="使用说明:\n\n1. 点击上方按钮开启无障碍服务\n2. 在 Termux 中运行 autoglm\n3. 输入任务，手机将自动执行\n\n服务器地址: http://localhost:8080"
+        android:textSize="12sp"
+        android:layout_marginTop="32dp"
+        android:padding="16dp"
+        android:background="#F0F0F0" />
+
+</LinearLayout>
