@@ -3,11 +3,11 @@ name: Build & Publish Release APK
 on:
   push:
     tags:
-      - 'v*'
-      
+      - "v*"
+
 permissions:
   contents: write
-  
+
 jobs:
   Gradle:
     runs-on: ubuntu-latest
@@ -24,17 +24,32 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+          cache: gradle
 
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
-      - name: Build Release APK
-        run: ./gradlew assembleRelease
+      # ✅ 把 keystore 放到 module 目录下：android-app/app/keystore/...
+      - name: Restore keystore
+        run: |
+          mkdir -p app/keystore
+          echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > app/keystore/autoglm-release.keystore
+          ls -la app/keystore
 
+      - name: Build Release APK (signed)
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew :app:assembleRelease
+
+      - name: List APK outputs
+        run: ls -la app/build/outputs/apk/release
+
+      # ✅ 注意：这里要用仓库根目录路径（要带 android-app/ 前缀）
       - name: Upload APK to GitHub Release
         uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: android-app/app/build/outputs/apk/release/*.apk
+          files: |
+            android-app/app/build/outputs/apk/release/*.apk
 
